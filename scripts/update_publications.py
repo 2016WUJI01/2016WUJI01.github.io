@@ -58,11 +58,32 @@ def fetch_publications_from_scholar(user_id):
 
         for pub in author.get("publications", []):
             pub_filled = scholarly.fill(pub)
+
+            bib = pub_filled.get("bib", {}) or {}
+            raw_authors = bib.get("author", "")
+
+            # 兼容不同格式的作者字段：
+            # - 如果是列表：["Hong Qiu", "Jiashun Wu"] -> "Hong Qiu, Jiashun Wu"
+            # - 如果是字符串："Hong Qiu and Jiashun Wu" -> "Hong Qiu, Jiashun Wu"
+            # - 避免对单个字符串做 join 导致每个字母后一个逗号
+            if isinstance(raw_authors, list):
+                authors_str = ", ".join(raw_authors)
+            elif isinstance(raw_authors, str):
+                # Google Scholar 常用 "and" 连接作者
+                if " and " in raw_authors:
+                    authors_str = ", ".join(
+                        part.strip() for part in raw_authors.split(" and ") if part.strip()
+                    )
+                else:
+                    authors_str = raw_authors.strip()
+            else:
+                authors_str = ""
+
             pub_data = {
-                "title": pub_filled.get("bib", {}).get("title", ""),
-                "authors": ", ".join(pub_filled.get("bib", {}).get("author", [])),
-                "year": pub_filled.get("bib", {}).get("pub_year", ""),
-                "venue": pub_filled.get("bib", {}).get("venue", ""),
+                "title": bib.get("title", ""),
+                "authors": authors_str,
+                "year": bib.get("pub_year", ""),
+                "venue": bib.get("venue", ""),
                 "link": pub_filled.get("pub_url", ""),
                 "citations": pub_filled.get("num_citations", 0),
             }
