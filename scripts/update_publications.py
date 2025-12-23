@@ -72,18 +72,23 @@ def fetch_publications_from_scholar(user_id):
                 # Google Scholar 常用 "and" 连接作者
                 if " and " in raw_authors:
                     authors_str = ", ".join(
-                        part.strip() for part in raw_authors.split(" and ") if part.strip()
+                        part.strip()
+                        for part in raw_authors.split(" and ")
+                        if part.strip()
                     )
                 else:
                     authors_str = raw_authors.strip()
             else:
                 authors_str = ""
 
+            # 期刊 / 会议名称，有的字段叫 venue，有的叫 journal
+            venue = bib.get("venue") or bib.get("journal") or ""
+
             pub_data = {
                 "title": bib.get("title", ""),
                 "authors": authors_str,
                 "year": bib.get("pub_year", ""),
-                "venue": bib.get("venue", ""),
+                "venue": venue,
                 "link": pub_filled.get("pub_url", ""),
                 "citations": pub_filled.get("num_citations", 0),
             }
