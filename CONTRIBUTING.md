@@ -153,7 +153,7 @@ GitHub Actions 会在以下情况自动运行：
 ## 获取帮助
 
 如有问题，请查看：
+
 - [Jekyll 文档](https://jekyllrb.com/docs/)
 - [GitHub Pages 文档](https://docs.github.com/en/pages)
 - [GitHub Actions 文档](https://docs.github.com/en/actions)
-
