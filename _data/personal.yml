@@ -1,0 +1,59 @@
+# 个人信息数据文件
+
+# 基本信息
+name: "Your Name"
+title: "博士生 / 研究员"  # 职位
+affiliation: "Your University"  # 机构
+email: "your.email@example.com"
+photo: "/assets/images/photo.jpg"  # 照片路径
+
+# 简介
+bio: |
+  这里是您的个人简介。可以介绍您的研究兴趣、学术背景等。
+
+# 研究领域
+research_areas:
+  - "机器学习"
+  - "深度学习"
+  - "计算机视觉"
+  - "自然语言处理"
+
+# 教育背景
+education:
+  - degree: "博士"
+    institution: "Your University"
+    year: "2020-2024"
+    field: "Computer Science"
+  - degree: "硕士"
+    institution: "Your University"
+    year: "2018-2020"
+    field: "Computer Science"
+  - degree: "学士"
+    institution: "Your University"
+    year: "2014-2018"
+    field: "Computer Science"
+
+# 工作经历
+experience:
+  - position: "研究助理"
+    institution: "Your University"
+    period: "2020-至今"
+    description: "从事相关研究工作"
+  - position: "实习生"
+    company: "Company Name"
+    period: "2019-2020"
+    description: "参与项目开发"
+
+# 社交链接
+social:
+  github: "https://github.com/2016wuji01"
+  google_scholar: ""  # Google Scholar 个人主页链接
+  orcid: ""  # ORCID ID 或链接
+  website: "https://2016wuji01.github.io"
+
+# Google Scholar 配置（用于自动更新）
+scholar:
+  user_id: ""  # Google Scholar 用户 ID（从个人主页 URL 中获取）
+  # 例如：如果您的 Google Scholar 链接是 https://scholar.google.com/citations?user=ABC123
+  # 那么 user_id 就是 ABC123
+

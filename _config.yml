@@ -1,0 +1,66 @@
+# Jekyll 配置文件
+
+# 站点基本信息
+title: "学术主页"
+description: "个人学术主页"
+url: "https://2016wuji01.github.io"
+baseurl: ""
+
+# 作者信息（将从 _data/personal.yml 读取）
+author:
+  name: "Your Name"
+  email: "your.email@example.com"
+
+# Jekyll 设置
+markdown: kramdown
+highlighter: rouge
+permalink: /:categories/:title/
+
+# 插件
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+
+# 排除文件
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+  - .git
+  - .gitignore
+  - README.md
+  - scripts
+
+# 集合（Collections）
+collections:
+  publications:
+    output: false
+    permalink: /publications/:name/
+
+# 导航菜单
+navigation:
+  - title: "主页"
+    url: /
+  - title: "关于"
+    url: /about
+  - title: "论文"
+    url: /publications
+  - title: "博客"
+    url: /blog
+
+# 社交链接（将从 _data/personal.yml 读取）
+social_links:
+  github: ""
+  google_scholar: ""
+  orcid: ""
+  email: ""
+
+# 主题设置
+theme: null
+
+# 构建设置
+sass:
+  style: compressed
+

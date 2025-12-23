@@ -1,0 +1,30 @@
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-content">
+            <p>&copy; {{ 'now' | date: "%Y" }} {{ site.data.personal.name | default: site.author.name }}. All rights reserved.</p>
+            <div class="social-links">
+                {% if site.data.personal.social.github %}
+                <a href="{{ site.data.personal.social.github }}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+                    GitHub
+                </a>
+                {% endif %}
+                {% if site.data.personal.social.google_scholar %}
+                <a href="{{ site.data.personal.social.google_scholar }}" target="_blank" rel="noopener noreferrer" aria-label="Google Scholar">
+                    Google Scholar
+                </a>
+                {% endif %}
+                {% if site.data.personal.social.orcid %}
+                <a href="{{ site.data.personal.social.orcid }}" target="_blank" rel="noopener noreferrer" aria-label="ORCID">
+                    ORCID
+                </a>
+                {% endif %}
+                {% if site.data.personal.email %}
+                <a href="mailto:{{ site.data.personal.email }}" aria-label="Email">
+                    Email
+                </a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</footer>
+

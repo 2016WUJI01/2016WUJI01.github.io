@@ -1,0 +1,83 @@
+---
+layout: default
+title: 主页
+---
+
+<div class="home-section">
+  <section class="profile-section">
+    {% if site.data.personal.photo %}
+    <img src="{{ site.data.personal.photo | relative_url }}" alt="{{ site.data.personal.name }}" class="profile-photo">
+    {% endif %}
+    <div class="profile-info">
+      <h1>{{ site.data.personal.name }}</h1>
+      <div class="title">{{ site.data.personal.title }}</div>
+      <div class="affiliation">{{ site.data.personal.affiliation }}</div>
+      <div class="bio">{{ site.data.personal.bio | markdownify }}</div>
+      
+      {% if site.data.personal.research_areas %}
+      <div class="research-areas">
+        <h3>研究领域</h3>
+        <ul>
+          {% for area in site.data.personal.research_areas %}
+          <li>{{ area }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+    </div>
+  </section>
+</div>
+
+<div class="home-section">
+  <h2>最新论文</h2>
+  <div class="publications-list">
+    {% assign sorted_pubs = site.publications | sort: 'year' | reverse %}
+    {% for pub in sorted_pubs limit: 5 %}
+    <div class="publication-item">
+      <div class="pub-title">
+        {% if pub.link %}
+        <a href="{{ pub.link }}" target="_blank" rel="noopener noreferrer">{{ pub.title }}</a>
+        {% else %}
+        {{ pub.title }}
+        {% endif %}
+      </div>
+      <div class="pub-authors">{{ pub.authors }}</div>
+      {% if pub.venue %}
+      <div class="pub-venue">{{ pub.venue }}</div>
+      {% endif %}
+      <div class="pub-year">{{ pub.year }}</div>
+      {% if pub.links %}
+      <div class="pub-links">
+        {% for link in pub.links %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.name }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <p style="margin-top: 1rem;">
+    <a href="{{ '/publications' | relative_url }}">查看所有论文 →</a>
+  </p>
+</div>
+
+<div class="home-section">
+  <h2>最新博客</h2>
+  <div class="post-list">
+    {% for post in site.posts limit: 5 %}
+    <div class="post-item">
+      <div class="post-title">
+        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+      </div>
+      <div class="post-date">{{ post.date | date: "%Y年%m月%d日" }}</div>
+      {% if post.excerpt %}
+      <div class="post-excerpt">{{ post.excerpt }}</div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+  <p style="margin-top: 1rem;">
+    <a href="{{ '/blog' | relative_url }}">查看所有文章 →</a>
+  </p>
+</div>
+

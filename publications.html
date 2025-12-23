@@ -1,0 +1,44 @@
+---
+layout: default
+title: 论文
+---
+
+<h1>发表论文</h1>
+
+{% assign sorted_pubs = site.publications | sort: 'year' | reverse %}
+{% assign grouped_pubs = sorted_pubs | group_by: 'year' %}
+
+{% for group in grouped_pubs %}
+<div class="publications-group">
+  <div class="year-header">{{ group.name }}年</div>
+  <div class="publications-list">
+    {% for pub in group.items %}
+    <div class="publication-item">
+      <div class="pub-title">
+        {% if pub.link %}
+        <a href="{{ pub.link }}" target="_blank" rel="noopener noreferrer">{{ pub.title }}</a>
+        {% else %}
+        {{ pub.title }}
+        {% endif %}
+      </div>
+      <div class="pub-authors">{{ pub.authors }}</div>
+      {% if pub.venue %}
+      <div class="pub-venue">{{ pub.venue }}</div>
+      {% endif %}
+      {% if pub.links %}
+      <div class="pub-links">
+        {% for link in pub.links %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer">{{ link.name }}</a>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+
+{% if sorted_pubs.size == 0 %}
+<p>暂无论文记录。论文数据将通过 GitHub Actions 自动更新。</p>
+{% endif %}
+
