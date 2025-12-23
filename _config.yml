@@ -8,8 +8,8 @@ baseurl: ""
 
 # 作者信息（将从 _data/personal.yml 读取）
 author:
-  name: "Your Name"
-  email: "your.email@example.com"
+  name: "吴嘉顺"
+  email: "2024882038@zwu.edu.cn"
 
 # Jekyll 设置
 markdown: kramdown
@@ -63,4 +63,3 @@ theme: null
 # 构建设置
 sass:
   style: compressed
-

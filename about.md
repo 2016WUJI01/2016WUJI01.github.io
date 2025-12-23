@@ -9,7 +9,8 @@ title: 关于
     {{ site.data.personal.bio | markdownify }}
   </div>
 
-  {% if site.data.personal.education %}
+{% if site.data.personal.education %}
+
   <h2>教育背景</h2>
   <ul class="education-list">
     {% for edu in site.data.personal.education %}
@@ -22,7 +23,8 @@ title: 关于
   </ul>
   {% endif %}
 
-  {% if site.data.personal.experience %}
+{% if site.data.personal.experience %}
+
   <h2>工作经历</h2>
   <ul class="experience-list">
     {% for exp in site.data.personal.experience %}
@@ -44,7 +46,8 @@ title: 关于
   </ul>
   {% endif %}
 
-  {% if site.data.personal.research_areas %}
+{% if site.data.personal.research_areas %}
+
   <h2>研究领域</h2>
   <ul>
     {% for area in site.data.personal.research_areas %}
@@ -53,4 +56,3 @@ title: 关于
   </ul>
   {% endif %}
 </div>
-

@@ -3,11 +3,11 @@ name: 更新站点
 on:
   # 定时任务：每周一 UTC 时间 00:00 运行（北京时间 08:00）
   schedule:
-    - cron: '0 0 * * 1'
-  
+    - cron: "0 0 * * 1"
+
   # 手动触发
   workflow_dispatch:
-  
+
   # 代码推送时触发
   push:
     branches:
@@ -21,34 +21,34 @@ jobs:
   update-data:
     name: 更新数据
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      
+
       - name: 设置 Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-      
+          python-version: "3.11"
+
       - name: 安装 Python 依赖
         run: |
           pip install -r scripts/requirements.txt
-      
+
       - name: 更新论文数据
         run: |
           python3 scripts/update_publications.py
-        continue-on-error: true  # 如果 Google Scholar 更新失败，继续执行
-      
+        continue-on-error: true # 如果 Google Scholar 更新失败，继续执行
+
       - name: 更新 GitHub 统计
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           python3 scripts/update_github_stats.py
         continue-on-error: true
-      
+
       - name: 提交更改
         run: |
           git config --local user.email "action@github.com"
@@ -62,30 +62,29 @@ jobs:
     name: 构建和部署
     runs-on: ubuntu-latest
     needs: update-data
-    if: always()  # 即使更新数据失败也继续构建
-    
+    if: always() # 即使更新数据失败也继续构建
+
     steps:
       - name: 检出代码
         uses: actions/checkout@v4
-      
+
       - name: 设置 Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
+          ruby-version: "3.1"
           bundler-cache: true
-      
+
       - name: 安装 Jekyll 依赖
         run: |
           bundle install
-      
+
       - name: 构建站点
         run: |
           bundle exec jekyll build
-      
+
       - name: 部署到 GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master'
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
-
