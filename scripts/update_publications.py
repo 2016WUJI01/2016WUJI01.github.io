@@ -5,7 +5,9 @@
 """
 
 import os
+import re
 import sys
+import unicodedata
 import yaml
 import json
 from pathlib import Path
@@ -24,6 +26,18 @@ except ImportError:
 ROOT_DIR = Path(__file__).parent.parent
 DATA_DIR = ROOT_DIR / "_data"
 PUBLICATIONS_DIR = ROOT_DIR / "_publications"
+
+# 论文标题/作者中常见的 Unicode 连字符与减号，统一规范化为 ASCII "-"
+# 包括 U+2010 HYPHEN、U+2011 NON-BREAKING HYPHEN、U+2012 FIGURE DASH、
+# U+2013 EN DASH、U+2014 EM DASH、U+2212 MINUS SIGN
+_HYPHEN_VARIANTS = "\u2010\u2011\u2012\u2013\u2014\u2212"
+
+
+def normalize_hyphens(text):
+    """把各类 Unicode 连字符/减号规范化为 ASCII '-'"""
+    if not isinstance(text, str):
+        return text
+    return "".join("-" if c in _HYPHEN_VARIANTS else c for c in text)
 
 
 def load_personal_config():
@@ -140,9 +154,47 @@ def fetch_publications_from_manual():
     return publications
 
 
+def normalize_title(text):
+    """统一标题中的 Unicode 连字符等字符，便于去重和生成文件名"""
+    if not text:
+        return ""
+    normalized = unicodedata.normalize("NFKC", text)
+    normalized = re.sub(r"[\u2010-\u2015\u2212\uFE58\uFE63\uFF0D]", "-", normalized)
+    return normalized.strip()
+
+
+def title_slug(title):
+    """从标题生成稳定的文件名 slug"""
+    normalized = normalize_title(title).lower()
+    slug = "".join(c if c.isalnum() or c in "- " else "" for c in normalized)
+    return "-".join(slug.split()[:5])
+
+
+def dedupe_publications(publications):
+    """按规范化标题去重，保留信息更完整的一条"""
+    seen = {}
+    for pub in publications:
+        key = normalize_title(pub.get("title", "")).lower()
+        if not key:
+            continue
+        existing = seen.get(key)
+        if existing is None or len(str(pub)) > len(str(existing)):
+            seen[key] = pub
+    return list(seen.values())
+
+
+def clear_publication_files():
+    """删除旧的论文 Markdown 文件，避免重复 slug 残留"""
+    for md_file in PUBLICATIONS_DIR.glob("*.md"):
+        if md_file.name != "README.md":
+            md_file.unlink()
+
+
 def save_publications(publications):
     """保存论文数据到 _publications 目录"""
     PUBLICATIONS_DIR.mkdir(exist_ok=True)
+    publications = dedupe_publications(publications)
+    clear_publication_files()
 
     # 按年份分组
     by_year = {}
@@ -155,30 +207,32 @@ def save_publications(publications):
     # 保存为单独的 Markdown 文件
     for year, pubs in by_year.items():
         for idx, pub in enumerate(pubs):
+            # 规范化标题/作者/期刊中的 Unicode 连字符为 ASCII "-"
+            title = normalize_hyphens(pub.get("title", "")).strip() or "untitled"
+            authors = normalize_hyphens(pub.get("authors", ""))
+            venue = normalize_hyphens(pub.get("venue", ""))
+            link = pub.get("link", "")
+
             # 生成文件名
-            title_slug = pub.get("title", "untitled").lower()
-            title_slug = "".join(
-                c if c.isalnum() or c in "- " else "" for c in title_slug
-            )
-            title_slug = "-".join(title_slug.split()[:5])  # 限制长度
-            filename = f"{year}-{idx+1:02d}-{title_slug}.md"
+            slug = title_slug(title)
+            filename = f"{year}-{idx+1:02d}-{slug}.md"
             filepath = PUBLICATIONS_DIR / filename
 
             # 生成 Markdown 内容
             content = f"""---
-title: "{pub.get('title', '')}"
-authors: "{pub.get('authors', '')}"
+title: "{title}"
+authors: "{authors}"
 year: {year}
-venue: "{pub.get('venue', '')}"
+venue: "{venue}"
 """
-            if pub.get("link"):
-                content += f'link: "{pub.get("link")}"\n'
+            if link:
+                content += f'link: "{link}"\n'
 
             if pub.get("links"):
                 content += "links:\n"
-                for link in pub.get("links", []):
-                    content += f'  - name: "{link.get("name", "")}"\n'
-                    content += f'    url: "{link.get("url", "")}"\n'
+                for link_item in pub.get("links", []):
+                    content += f'  - name: "{link_item.get("name", "")}"\n'
+                    content += f'    url: "{link_item.get("url", "")}"\n'
 
             content += "---\n\n"
 
