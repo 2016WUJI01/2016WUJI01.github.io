@@ -3,92 +3,88 @@ layout: default
 title: 主页
 ---
 
-<div class="home-section">
-  <section class="profile-section">
-    {%- comment -%} 优先使用 GitHub 头像： 1. 如果配置了 social.github，则自动从
-    GitHub 获取头像 2. 否则，如果配置了 photo，则使用本地图片 {%- endcomment -%}
-    {% assign avatar_url = site.data.personal.photo %} {% if
-    site.data.personal.social.github %} {% assign gh_username =
-    site.data.personal.social.github | split:'/' | last %} {% assign avatar_url
-    = 'https://avatars.githubusercontent.com/' | append: gh_username %} {% endif
-    %} {% if avatar_url %}
-    <img
-      src="{{ avatar_url }}"
-      alt="{{ site.data.personal.name }}"
-      class="profile-photo"
-    />
+<section class="hero">
+  <div class="container">
+    <div class="hero-inner">
+      {% assign avatar_url = site.data.personal.photo %}
+      {% if site.data.personal.social.github %}
+        {% assign gh_username = site.data.personal.social.github | split: '/' | last %}
+        {% assign avatar_url = 'https://avatars.githubusercontent.com/' | append: gh_username %}
+      {% endif %}
+
+      {% if avatar_url %}
+        <div class="hero-avatar">
+          <img
+            src="{{ avatar_url }}"
+            alt="{{ site.data.personal.name }}"
+            class="profile-photo"
+          />
+        </div>
+      {% endif %}
+
+      <div class="hero-content">
+        <h1 class="profile-name">{{ site.data.personal.name }}</h1>
+        <p class="profile-title">{{ site.data.personal.title }}</p>
+        <p class="profile-affiliation">{{ site.data.personal.affiliation }}</p>
+
+        {% if site.data.personal.bio %}
+          <div class="profile-bio">{{ site.data.personal.bio | markdownify }}</div>
+        {% endif %}
+
+        {% if site.data.personal.research_areas %}
+          <div class="research-tags">
+            {% for area in site.data.personal.research_areas %}
+              <span class="tag">{{ area }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% include social-links.html %}
+
+        <div class="hero-actions">
+          <a href="{{ '/publications' | relative_url }}" class="btn btn-primary">查看论文</a>
+          <a href="{{ '/about' | relative_url }}" class="btn btn-outline">了解更多</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="container">
+  {% include stats-bar.html %}
+
+  <section class="content-section">
+    <div class="section-header">
+      <h2 class="section-title">最新论文</h2>
+      <a href="{{ '/publications' | relative_url }}" class="section-link">查看全部 →</a>
+    </div>
+    <div class="publications-list">
+      {% assign sorted_pubs = site.publications | sort: 'year' | reverse %}
+      {% for pub in sorted_pubs limit: 3 %}
+        {% include publication-item.html pub=pub %}
+      {% endfor %}
+    </div>
+    {% if sorted_pubs.size == 0 %}
+      <div class="empty-state">
+        <p>暂无论文记录</p>
+      </div>
     {% endif %}
-    <div class="profile-info">
-      <h1>{{ site.data.personal.name }}</h1>
-      <div class="title">{{ site.data.personal.title }}</div>
-      <div class="affiliation">{{ site.data.personal.affiliation }}</div>
-      <div class="bio">{{ site.data.personal.bio | markdownify }}</div>
-
-      {% if site.data.personal.research_areas %}
-      <div class="research-areas">
-        <h3>研究领域</h3>
-        <ul>
-          {% for area in site.data.personal.research_areas %}
-          <li>{{ area }}</li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endif %}
-    </div>
   </section>
-</div>
 
-<div class="home-section">
-  <h2>最新论文</h2>
-  <div class="publications-list">
-    {% assign sorted_pubs = site.publications | sort: 'year' | reverse %} {% for
-    pub in sorted_pubs limit: 5 %}
-    <div class="publication-item">
-      <div class="pub-title">
-        {% if pub.link %}
-        <a href="{{ pub.link }}" target="_blank" rel="noopener noreferrer"
-          >{{ pub.title }}</a
-        >
-        {% else %} {{ pub.title }} {% endif %}
-      </div>
-      <div class="pub-authors">{{ pub.authors }}</div>
-      {% if pub.venue %}
-      <div class="pub-venue">{{ pub.venue }}</div>
-      {% endif %}
-      <div class="pub-year">{{ pub.year }}</div>
-      {% if pub.links %}
-      <div class="pub-links">
-        {% for link in pub.links %}
-        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer"
-          >{{ link.name }}</a
-        >
-        {% endfor %}
-      </div>
-      {% endif %}
+  <section class="content-section">
+    <div class="section-header">
+      <h2 class="section-title">最新博客</h2>
+      <a href="{{ '/blog' | relative_url }}" class="section-link">查看全部 →</a>
     </div>
-    {% endfor %}
-  </div>
-  <p style="margin-top: 1rem">
-    <a href="{{ '/publications' | relative_url }}">查看所有论文 →</a>
-  </p>
-</div>
-
-<div class="home-section">
-  <h2>最新博客</h2>
-  <div class="post-list">
-    {% for post in site.posts limit: 5 %}
-    <div class="post-item">
-      <div class="post-title">
-        <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
-      </div>
-      <div class="post-date">{{ post.date | date: "%Y年%m月%d日" }}</div>
-      {% if post.excerpt %}
-      <div class="post-excerpt">{{ post.excerpt }}</div>
-      {% endif %}
+    <div class="post-list">
+      {% for post in site.posts limit: 3 %}
+        {% include post-item.html post=post %}
+      {% endfor %}
     </div>
-    {% endfor %}
-  </div>
-  <p style="margin-top: 1rem">
-    <a href="{{ '/blog' | relative_url }}">查看所有文章 →</a>
-  </p>
+    {% if site.posts.size == 0 %}
+      <div class="empty-state">
+        <p>暂无博客文章</p>
+      </div>
+    {% endif %}
+  </section>
 </div>

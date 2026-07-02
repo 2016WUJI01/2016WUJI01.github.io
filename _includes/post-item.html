@@ -1,0 +1,11 @@
+<article class="post-item">
+  <time class="post-date" datetime="{{ include.post.date | date: '%Y-%m-%d' }}">
+    {{ include.post.date | date: "%Y年%m月%d日" }}
+  </time>
+  <h3 class="post-title">
+    <a href="{{ include.post.url | relative_url }}">{{ include.post.title }}</a>
+  </h3>
+  {% if include.post.excerpt %}
+    <p class="post-excerpt">{{ include.post.excerpt | strip_html | truncate: 160 }}</p>
+  {% endif %}
+</article>
