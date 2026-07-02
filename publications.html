@@ -3,38 +3,27 @@ layout: default
 title: 论文
 ---
 
-<h1>发表论文</h1>
+<div class="container">
+  {% include page-header.html title="发表论文" subtitle="按年份排列的学术成果" %}
 
-{% assign sorted_pubs = site.publications | sort: 'year' | reverse %} {% assign
-grouped_pubs = sorted_pubs | group_by: 'year' %} {% for group in grouped_pubs %}
-<div class="publications-group">
-  <div class="year-header">{{ group.name }}年</div>
-  <div class="publications-list">
-    {% for pub in group.items %}
-    <div class="publication-item">
-      <div class="pub-title">
-        {% if pub.link %}
-        <a href="{{ pub.link }}" target="_blank" rel="noopener noreferrer"
-          >{{ pub.title }}</a
-        >
-        {% else %} {{ pub.title }} {% endif %}
-      </div>
-      <div class="pub-authors">{{ pub.authors }}</div>
-      {% if pub.venue %}
-      <div class="pub-venue">{{ pub.venue }}</div>
-      {% endif %} {% if pub.links %}
-      <div class="pub-links">
-        {% for link in pub.links %}
-        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer"
-          >{{ link.name }}</a
-        >
+  {% assign sorted_pubs = site.publications | sort: 'year' | reverse %}
+  {% assign grouped_pubs = sorted_pubs | group_by: 'year' %}
+
+  {% for group in grouped_pubs %}
+    <div class="publications-group">
+      <h2 class="year-header">{{ group.name }} 年</h2>
+      <div class="publications-list">
+        {% for pub in group.items %}
+          {% include publication-item.html pub=pub %}
         {% endfor %}
       </div>
-      {% endif %}
     </div>
-    {% endfor %}
-  </div>
+  {% endfor %}
+
+  {% if sorted_pubs.size == 0 %}
+    <div class="empty-state">
+      <p>暂无论文记录</p>
+      <p>论文数据将通过 GitHub Actions 自动更新</p>
+    </div>
+  {% endif %}
 </div>
-{% endfor %} {% if sorted_pubs.size == 0 %}
-<p>暂无论文记录。论文数据将通过 GitHub Actions 自动更新。</p>
-{% endif %}

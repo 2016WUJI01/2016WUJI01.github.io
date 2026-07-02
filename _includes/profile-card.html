@@ -1,0 +1,43 @@
+{%- comment -%}
+  个人资料卡片组件
+  参数: compact (可选) - 紧凑模式，用于侧边栏等场景
+{%- endcomment -%}
+
+{% assign avatar_url = site.data.personal.photo %}
+{% if site.data.personal.social.github %}
+  {% assign gh_username = site.data.personal.social.github | split: '/' | last %}
+  {% assign avatar_url = 'https://avatars.githubusercontent.com/' | append: gh_username %}
+{% endif %}
+
+<div class="profile-card{% if include.compact %} profile-card--compact{% endif %}">
+  {% if avatar_url %}
+    <div class="profile-avatar">
+      <img
+        src="{{ avatar_url }}"
+        alt="{{ site.data.personal.name }}"
+        class="profile-photo"
+        loading="lazy"
+      />
+    </div>
+  {% endif %}
+
+  <div class="profile-body">
+    <h1 class="profile-name">{{ site.data.personal.name }}</h1>
+    <p class="profile-title">{{ site.data.personal.title }}</p>
+    <p class="profile-affiliation">{{ site.data.personal.affiliation }}</p>
+
+    {% if site.data.personal.bio and include.compact != true %}
+      <div class="profile-bio">{{ site.data.personal.bio | markdownify }}</div>
+    {% endif %}
+
+    {% if site.data.personal.research_areas %}
+      <div class="research-tags">
+        {% for area in site.data.personal.research_areas %}
+          <span class="tag">{{ area }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    {% include social-links.html %}
+  </div>
+</div>

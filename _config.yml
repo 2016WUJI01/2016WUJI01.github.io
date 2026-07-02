@@ -1,8 +1,8 @@
 # Jekyll 配置文件
 
 # 站点基本信息
-title: "学术主页"
-description: "个人学术主页"
+title: "吴嘉顺 | 学术主页"
+description: "吴嘉顺 (Jiashun Wu) 的个人学术主页 — 机器学习、深度学习、时序序列分类与高光谱图像分类"
 url: "https://2016wuji01.github.io"
 baseurl: ""
 

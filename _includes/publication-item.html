@@ -1,0 +1,25 @@
+<div class="publication-item">
+  <div class="pub-meta">
+    {% if include.pub.year %}
+      <span class="pub-year-badge">{{ include.pub.year }}</span>
+    {% endif %}
+    {% if include.pub.venue %}
+      <span class="pub-venue">{{ include.pub.venue }}</span>
+    {% endif %}
+  </div>
+  <div class="pub-title">
+    {% if include.pub.link %}
+      <a href="{{ include.pub.link }}" target="_blank" rel="noopener noreferrer">{{ include.pub.title }}</a>
+    {% else %}
+      {{ include.pub.title }}
+    {% endif %}
+  </div>
+  <div class="pub-authors">{{ include.pub.authors }}</div>
+  {% if include.pub.links %}
+    <div class="pub-links">
+      {% for link in include.pub.links %}
+        <a href="{{ link.url }}" target="_blank" rel="noopener noreferrer" class="pub-link-btn">{{ link.name }}</a>
+      {% endfor %}
+    </div>
+  {% endif %}
+</div>

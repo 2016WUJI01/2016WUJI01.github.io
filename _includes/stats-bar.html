@@ -1,0 +1,23 @@
+{% assign stats = site.data.github_stats.stats %}
+{% assign pub_count = site.publications | size %}
+
+<section class="stats-bar" aria-label="统计数据">
+  <div class="stat-card">
+    <span class="stat-value">{{ pub_count }}</span>
+    <span class="stat-label">发表论文</span>
+  </div>
+  {% if stats %}
+    <div class="stat-card">
+      <span class="stat-value">{{ stats.total_repos | default: 0 }}</span>
+      <span class="stat-label">GitHub 仓库</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">{{ stats.total_followers | default: 0 }}</span>
+      <span class="stat-label">GitHub 关注者</span>
+    </div>
+    <div class="stat-card">
+      <span class="stat-value">{{ stats.total_stars | default: 0 }}</span>
+      <span class="stat-label">Star 总数</span>
+    </div>
+  {% endif %}
+</section>

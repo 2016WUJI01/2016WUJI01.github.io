@@ -1,7 +1,17 @@
 <header class="site-header">
   <div class="container">
     <div class="header-content">
-      <a href="{{ '/' | relative_url }}" class="site-title">{{ site.title }}</a>
+      <a href="{{ '/' | relative_url }}" class="site-brand">
+        <span class="site-brand-name">{{ site.data.personal.name | split: ' ' | first }}</span>
+        <span class="site-brand-tag">{{ site.data.personal.title }}</span>
+      </a>
+
+      <button class="nav-toggle" aria-label="切换导航菜单" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
       {% include navigation.html %}
     </div>
   </div>
