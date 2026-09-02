@@ -1,0 +1,7 @@
+{%- assign slug = include.name | slugify -%}
+{%- if include.type == "tag" -%}
+  {%- assign taxonomy_href = "/blog/tags/" | append: slug | append: "/" -%}
+{%- else -%}
+  {%- assign taxonomy_href = "/blog/categories/" | append: slug | append: "/" -%}
+{%- endif -%}
+<a href="{{ taxonomy_href | relative_url }}" class="{{ include.class }}">{{ include.name }}</a>

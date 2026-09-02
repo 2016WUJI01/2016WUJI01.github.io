@@ -14,7 +14,29 @@ author:
 # Jekyll 设置
 markdown: kramdown
 highlighter: rouge
-permalink: /:categories/:title/
+permalink: /blog/:year/:month/:title/
+
+# GitHub Flavored Markdown，便于用 Markdown 直接写博客
+kramdown:
+  input: GFM
+  hard_wrap: false
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    css_class: highlight
+    span:
+      line_numbers: false
+    block:
+      line_numbers: false
+
+excerpt_separator: "<!--more-->"
+
+# 文章默认布局，_posts 中的 Markdown 无需每次声明 layout
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: "post"
 
 # 插件
 plugins:
@@ -44,11 +66,11 @@ navigation:
   - title: "主页"
     url: /
   - title: "关于"
-    url: /about
+    url: /about/
   - title: "论文"
-    url: /publications
+    url: /publications/
   - title: "博客"
-    url: /blog
+    url: /blog/
 
 # 社交链接（将从 _data/personal.yml 读取）
 social_links:

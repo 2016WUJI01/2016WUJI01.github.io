@@ -1,0 +1,24 @@
+{% if site.categories.size > 0 %}
+  <nav class="taxonomy-filters" aria-label="文章分类">
+    <a
+      href="{{ '/blog/' | relative_url }}"
+      class="taxonomy-chip{% unless include.current %} is-active{% endunless %}"
+    >
+      全部
+      <span class="taxonomy-chip-count">{{ site.posts.size }}</span>
+    </a>
+    {% assign sorted_cats = site.categories | sort %}
+    {% for cat in sorted_cats %}
+      {% assign cat_name = cat[0] %}
+      {% assign cat_posts = cat[1] %}
+      {% assign cat_slug = cat_name | slugify %}
+      <a
+        href="{{ '/blog/categories/' | append: cat_slug | append: '/' | relative_url }}"
+        class="taxonomy-chip{% if include.current == cat_name %} is-active{% endif %}"
+      >
+        {{ cat_name }}
+        <span class="taxonomy-chip-count">{{ cat_posts.size }}</span>
+      </a>
+    {% endfor %}
+  </nav>
+{% endif %}

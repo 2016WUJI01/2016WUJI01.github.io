@@ -82,14 +82,45 @@ links:
 
 示例：
 
-```markdown
+````markdown
 ---
 title: "文章标题"
 date: 2024-01-01
+categories: [研究笔记]
+tags: [深度学习, 时序分类]
+excerpt: "可选，列表页显示的摘要。不写则自动截取正文开头。"
 ---
 
-文章内容...
+正文使用 Markdown 撰写，例如：
+
+## 小节标题
+
+- 列表项
+- 另一项
+
+行内代码 `like this`，以及代码块：
+
+```python
+def hello():
+    print("hello")
 ```
+
+| 列 A | 列 B |
+| ---- | ---- |
+| 内容 | 内容 |
+
+![图片说明](/assets/images/example.png)
+````
+
+说明：
+
+- **分类**：写在 `categories` 中，博客页顶部可按分类筛选，同时生成 `/blog/categories/分类名/` 归档页
+- **标签**：写在 `tags` 中，显示在文章卡片和正文页，并生成 `/blog/tags/标签名/` 归档页
+- 可写多个分类或标签，例如 `categories: [研究笔记, 技术分享]`
+- 若要手动控制列表摘要长度，在正文插入 `<!--more-->`，该标记之前的内容会作为摘要
+- 文章默认使用 `post` 布局，无需每次声明 `layout: post`
+
+图片请放到 `assets/images/`（或子目录），用站点根路径引用。
 
 ## 本地测试
 

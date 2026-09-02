@@ -7,7 +7,7 @@
 - 🎨 简洁现代的界面设计
 - 📝 自动更新论文列表（Google Scholar）
 - 📊 自动更新 GitHub 统计信息
-- 📖 博客文章支持
+- 📖 博客文章支持（Markdown 写作、分类与标签）
 - 🔄 GitHub Actions 自动化部署
 - 📱 响应式设计，支持移动端
 
@@ -71,7 +71,8 @@ bundle exec jekyll serve
 │   └── github_stats.yml # GitHub 统计（自动生成）
 ├── _layouts/            # 布局模板
 ├── _includes/           # 组件
-├── _posts/              # 博客文章
+├── _posts/              # 博客文章（Markdown，支持分类与标签）
+├── _plugins/            # Jekyll 插件（自动生成分类/标签归档页）
 ├── _publications/       # 论文（自动生成或手动维护）
 ├── assets/              # 静态资源
 ├── scripts/             # 自动化脚本
@@ -86,10 +87,19 @@ bundle exec jekyll serve
 ---
 title: "文章标题"
 date: 2024-01-01
+categories: [研究笔记]
+tags: [深度学习, 时序分类]
 ---
 
-文章内容...
+正文使用 Markdown 撰写，保存后会在「博客」页面渲染为网页。
 ```
+
+- `categories`：文章分类，用于博客页筛选和分类归档（`/blog/categories/分类名/`）
+- `tags`：标签，显示在列表和文章页，并可进入标签归档（`/blog/tags/标签名/`）
+- 一篇文章可以有多个分类和标签
+- 若只需截取列表摘要，在正文中插入 `<!--more-->`
+
+支持 GitHub Flavored Markdown：标题、列表、引用、表格、图片、代码块、链接等。图片可放在 `assets/images/` 下，用 `![说明](/assets/images/example.png)` 引用。
 
 ## 手动添加论文
 
