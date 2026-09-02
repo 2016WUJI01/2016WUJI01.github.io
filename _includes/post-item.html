@@ -1,11 +1,23 @@
 <article class="post-item">
-  <time class="post-date" datetime="{{ include.post.date | date: '%Y-%m-%d' }}">
-    {{ include.post.date | date: "%Y年%m月%d日" }}
-  </time>
+  <div class="post-item-meta">
+    <time class="post-date" datetime="{{ include.post.date | date: '%Y-%m-%d' }}">
+      {{ include.post.date | date: "%Y年%m月%d日" }}
+    </time>
+    {% for category in include.post.categories %}
+      {% include taxonomy-link.html type="category" name=category class="post-category" %}
+    {% endfor %}
+  </div>
   <h3 class="post-title">
     <a href="{{ include.post.url | relative_url }}">{{ include.post.title }}</a>
   </h3>
   {% if include.post.excerpt %}
-    <p class="post-excerpt">{{ include.post.excerpt | strip_html | truncate: 160 }}</p>
+    <p class="post-excerpt">{{ include.post.excerpt | strip_html | strip | truncate: 160 }}</p>
+  {% endif %}
+  {% if include.post.tags.size > 0 %}
+    <div class="post-tags">
+      {% for tag in include.post.tags %}
+        {% include taxonomy-link.html type="tag" name=tag class="post-tag" %}
+      {% endfor %}
+    </div>
   {% endif %}
 </article>

@@ -4,15 +4,54 @@ layout: default
 
 <article class="post-article">
   <header class="post-header">
-    <time class="post-header-date" datetime="{{ page.date | date: '%Y-%m-%d' }}">
-      {{ page.date | date: "%Y年%m月%d日" }}
-    </time>
+    <div class="post-header-meta">
+      <time class="post-header-date" datetime="{{ page.date | date: '%Y-%m-%d' }}">
+        {{ page.date | date: "%Y年%m月%d日" }}
+      </time>
+      {% for category in page.categories %}
+        {% include taxonomy-link.html type="category" name=category class="post-category" %}
+      {% endfor %}
+    </div>
     <h1 class="post-header-title">{{ page.title }}</h1>
+    {% if page.tags.size > 0 %}
+      <div class="post-tags post-tags--header">
+        {% for tag in page.tags %}
+          {% include taxonomy-link.html type="tag" name=tag class="post-tag" %}
+        {% endfor %}
+      </div>
+    {% endif %}
   </header>
   <div class="post-content">
     {{ content }}
   </div>
   <footer class="post-footer">
-    <a href="{{ '/blog' | relative_url }}" class="back-link">← 返回博客列表</a>
+    {% if page.categories.size > 0 %}
+      {% assign related_category = page.categories | first %}
+      {% assign related_posts = site.categories[related_category] %}
+      {% assign related_count = 0 %}
+      {% for post in related_posts %}
+        {% if post.url != page.url %}
+          {% assign related_count = related_count | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+      {% if related_count > 0 %}
+        <section class="related-posts">
+          <h2 class="related-posts-title">同分类的其他文章</h2>
+          <ul class="related-posts-list">
+            {% assign shown = 0 %}
+            {% for post in related_posts %}
+              {% if post.url != page.url and shown < 3 %}
+                <li>
+                  <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+                  <time datetime="{{ post.date | date: '%Y-%m-%d' }}">{{ post.date | date: "%Y年%m月%d日" }}</time>
+                </li>
+                {% assign shown = shown | plus: 1 %}
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+    {% endif %}
+    <a href="{{ '/blog/' | relative_url }}" class="back-link">← 返回博客列表</a>
   </footer>
 </article>

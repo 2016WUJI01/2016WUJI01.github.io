@@ -7,6 +7,14 @@
         {% assign is_active = true %}
       {% elsif item.url == '/' and page.url == '/index.html' %}
         {% assign is_active = true %}
+      {% elsif item.url == '/blog/' %}
+        {% if page.url == '/blog/' or page.url contains '/blog/' or page.layout == 'post' or page.layout == 'taxonomy' %}
+          {% assign is_active = true %}
+        {% endif %}
+      {% elsif item.url == '/publications/' and page.url contains '/publications' %}
+        {% assign is_active = true %}
+      {% elsif item.url == '/about/' and page.url contains '/about' %}
+        {% assign is_active = true %}
       {% endif %}
       <li>
         <a href="{{ item_url }}"{% if is_active %} class="active"{% endif %}>

@@ -1,0 +1,38 @@
+---
+layout: default
+---
+
+{% if page.taxonomy_type == "tag" %}
+  {% assign taxonomy_label = "标签" %}
+  {% assign posts = site.tags[page.taxonomy_name] %}
+{% else %}
+  {% assign taxonomy_label = "分类" %}
+  {% assign posts = site.categories[page.taxonomy_name] %}
+{% endif %}
+
+{% assign post_count = posts.size %}
+
+<div class="container">
+  {% capture taxonomy_subtitle %}{{ taxonomy_label }} · 共 {{ post_count }} 篇{% endcapture %}
+  {% include page-header.html title=page.taxonomy_name subtitle=taxonomy_subtitle %}
+
+  {% if page.taxonomy_type == "category" %}
+    {% include taxonomy-filter.html current=page.taxonomy_name %}
+  {% endif %}
+
+  <div class="post-list">
+    {% for post in posts %}
+      {% include post-item.html post=post %}
+    {% endfor %}
+  </div>
+
+  {% if post_count == 0 %}
+    <div class="empty-state">
+      <p>该{{ taxonomy_label }}下暂无文章</p>
+    </div>
+  {% endif %}
+
+  <p class="taxonomy-back">
+    <a href="{{ '/blog/' | relative_url }}" class="back-link">← 返回全部文章</a>
+  </p>
+</div>
