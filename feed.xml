@@ -1,5 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://2016wuji01.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://2016wuji01.github.io/" rel="alternate" type="text/html" /><updated>2026-08-31T04:24:51+00:00</updated><id>https://2016wuji01.github.io/feed.xml</id><title type="html">吴嘉顺 | 学术主页</title><subtitle>吴嘉顺 (Jiashun Wu) 的个人学术主页 — 机器学习、深度学习、时序序列分类与高光谱图像分类</subtitle><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><entry><title type="html">欢迎来到我的学术主页</title><link href="https://2016wuji01.github.io/welcome/" rel="alternate" type="text/html" title="欢迎来到我的学术主页" /><published>2024-01-01T00:00:00+00:00</published><updated>2024-01-01T00:00:00+00:00</updated><id>https://2016wuji01.github.io/welcome</id><content type="html" xml:base="https://2016wuji01.github.io/welcome/"><![CDATA[<p>欢迎来到我的学术主页！</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://2016wuji01.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://2016wuji01.github.io/" rel="alternate" type="text/html" /><updated>2026-09-02T15:20:33+00:00</updated><id>https://2016wuji01.github.io/feed.xml</id><title type="html">吴嘉顺 | 学术主页</title><subtitle>吴嘉顺 (Jiashun Wu) 的个人学术主页 — 机器学习、深度学习、时序序列分类与高光谱图像分类</subtitle><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><entry><title type="html">欢迎来到我的学术主页</title><link href="https://2016wuji01.github.io/blog/2024/01/welcome/" rel="alternate" type="text/html" title="欢迎来到我的学术主页" /><published>2024-01-01T00:00:00+00:00</published><updated>2024-01-01T00:00:00+00:00</updated><id>https://2016wuji01.github.io/blog/2024/01/welcome</id><content type="html" xml:base="https://2016wuji01.github.io/blog/2024/01/welcome/"><![CDATA[<p>欢迎来到我的学术主页！</p>
 
 <p>这个网站使用 Jekyll 构建，并通过 GitHub Actions 自动更新论文和统计数据。</p>
 
-<p>您可以在 <code class="language-plaintext highlighter-rouge">_posts/</code> 目录下添加 Markdown 文件来创建新的博客文章。</p>]]></content><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><summary type="html"><![CDATA[欢迎来到我的学术主页！]]></summary></entry></feed>
+<h2 id="如何发布文章">如何发布文章</h2>
+
+<p>在 <code class="language-plaintext highlighter-rouge">_posts/</code> 目录下新建 Markdown 文件，文件名格式为 <code class="language-plaintext highlighter-rouge">YYYY-MM-DD-英文标题.md</code>，并在文首写入 front matter：</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">---</span>
+<span class="na">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">文章标题"</span>
+<span class="na">date</span><span class="pi">:</span> <span class="s">2024-01-01</span>
+<span class="na">categories</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">研究笔记</span><span class="pi">]</span>
+<span class="na">tags</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">深度学习</span><span class="pi">,</span> <span class="nv">时序分类</span><span class="pi">]</span>
+<span class="nn">---</span>
+</code></pre></div></div>
+
+<p>正文使用标准 Markdown（GFM）即可，例如标题、列表、链接、代码块、表格和图片，都会在网页中渲染。</p>
+
+<ul>
+  <li><strong>分类 <code class="language-plaintext highlighter-rouge">categories</code></strong>：用于归档和筛选，一篇文章可以有多个分类</li>
+  <li><strong>标签 <code class="language-plaintext highlighter-rouge">tags</code></strong>：更细的主题标记，显示在文章卡片和正文页</li>
+</ul>
+
+<p>需要分隔摘要与正文时，在文中插入 <code class="language-plaintext highlighter-rouge">&lt;!--more--&gt;</code>。</p>]]></content><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><category term="站点公告" /><category term="Jekyll" /><summary type="html"><![CDATA[欢迎来到我的学术主页。本站使用 Jekyll 构建，支持用 Markdown 撰写带分类与标签的博客文章。]]></summary></entry></feed>
