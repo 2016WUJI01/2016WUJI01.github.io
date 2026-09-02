@@ -91,6 +91,16 @@ date: 2024-01-01
 文章内容...
 ```
 
+### 可拖动的 3D 形状代码块
+
+将围栏语言写成 `shape3d` 或 `threejs`。JSON 用于声明形状；非 JSON 内容会作为 JavaScript 执行（可使用 `THREE`、`scene`、`camera`、`renderer`、`controls`）。
+
+````markdown
+```shape3d
+{ "shape": "sphere", "color": "#0d9488" }
+```
+````
+
 ## 本地测试
 
 ```bash

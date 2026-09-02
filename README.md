@@ -91,6 +91,36 @@ date: 2024-01-01
 文章内容...
 ```
 
+## 在 Markdown 中嵌入可拖动的 3D 形状
+
+博客正文支持自定义围栏代码块 `shape3d`（别名 `threejs`）。页面加载后会用 Three.js 渲染，可用鼠标拖动旋转、滚轮缩放。
+
+**JSON 声明：**
+
+````markdown
+```shape3d
+{
+  "shape": "torus",
+  "color": "#2563eb",
+  "autoRotate": false
+}
+```
+````
+
+**直接写 JS：** 代码块内容不是 JSON 时，会作为脚本执行，可使用 `THREE`、`scene`、`camera`、`renderer`、`controls`。
+
+````markdown
+```shape3d
+const mesh = new THREE.Mesh(
+  new THREE.IcosahedronGeometry(0.95),
+  new THREE.MeshPhysicalMaterial({ color: 0x2563eb, metalness: 0.3, roughness: 0.3 })
+);
+scene.add(mesh);
+```
+````
+
+示例文章见 `_posts/2026-09-02-markdown-shape3d.md`。JS 代码块只用于你自己编写的内容。
+
 ## 手动添加论文
 
 在 `_publications/` 目录下创建 Markdown 文件：
