@@ -33,3 +33,6 @@ Thumbs.db
 # 日志
 *.log
 
+# 系列合订 PDF 由 scripts/build_series_pdfs.py 或 CI 生成，不入库
+/assets/pdf/*.pdf
+

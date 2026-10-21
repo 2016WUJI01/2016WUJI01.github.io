@@ -1,0 +1,34 @@
+name: 系列 PDF
+
+on:
+  pull_request:
+  push:
+    branches-ignore:
+      - main
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  build-pdf:
+    name: 生成系列 PDF
+    runs-on: ubuntu-latest
+    steps:
+      - name: 检出代码
+        uses: actions/checkout@v4
+
+      - name: 安装 Pandoc、XeLaTeX 与中文字体
+        run: bash scripts/install_pdf_deps.sh
+
+      - name: 生成 PDF
+        run: |
+          python3 scripts/build_series_pdfs.py --self-test
+          python3 scripts/build_series_pdfs.py
+
+      - name: 上传 PDF
+        uses: actions/upload-artifact@v4
+        with:
+          name: series-pdfs
+          path: assets/pdf/*.pdf
+          if-no-files-found: error

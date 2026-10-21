@@ -78,6 +78,24 @@ jobs:
         run: |
           bundle install
 
+      - name: 安装 Pandoc、XeLaTeX 与中文字体
+        id: pdf_deps
+        run: bash scripts/install_pdf_deps.sh
+        continue-on-error: true
+
+      - name: 生成系列合订 PDF
+        id: series_pdf
+        if: steps.pdf_deps.outcome == 'success'
+        run: |
+          python3 scripts/build_series_pdfs.py --self-test
+          python3 scripts/build_series_pdfs.py
+        continue-on-error: true
+
+      - name: 记录 PDF 失败
+        if: steps.pdf_deps.outcome == 'failure' || steps.series_pdf.outcome == 'failure'
+        run: |
+          echo "::error title=系列 PDF 生成失败::站点仍会继续构建。master 上的部署不会因此取消，但 /assets/pdf/ 可能缺少合订本。请向上查看依赖安装或 pandoc / XeLaTeX 日志（字体、xeCJK、公式）。"
+
       - name: 构建站点
         run: |
           bundle exec jekyll build
@@ -88,3 +106,9 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./_site
+
+      - name: PDF 失败时把作业标红
+        if: steps.pdf_deps.outcome == 'failure' || steps.series_pdf.outcome == 'failure'
+        run: |
+          echo "::error::系列 PDF 未生成。若本次是 master/main，站点部署已经按原计划执行；请根据上面的 XeLaTeX 日志修复后重跑。"
+          exit 1

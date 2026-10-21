@@ -122,6 +122,17 @@ def hello():
 
 图片请放到 `assets/images/`（或子目录），用站点根路径引用。
 
+### 系列文章
+
+把多篇笔记收成一个系列时，在 front matter 增加：
+
+```yaml
+series: demo-tensor-notes
+series_order: 1
+```
+
+可选地在 `_data/series.yml` 写标题和简介。目录页是 `/blog/series/<slug>/`。公式、互相链接和合订 PDF 的生成方式见 [docs/series-and-pdf.md](docs/series-and-pdf.md)。
+
 ## 本地测试
 
 ```bash

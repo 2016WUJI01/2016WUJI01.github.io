@@ -1,0 +1,49 @@
+---
+layout: default
+---
+
+{% assign bundle = site.data.series_bundles[page.series_slug] %}
+{% assign pdf_path = bundle.pdf %}
+{% assign pdf_file = site.static_files | where: "path", pdf_path | first %}
+
+<div class="container">
+  {% include page-header.html title=page.title subtitle=page.series_description %}
+
+  <div class="series-download">
+    {% if pdf_file %}
+      <a class="btn btn-primary" href="{{ pdf_path | relative_url }}">下载合订 PDF</a>
+      <span class="series-download-path"><code>{{ pdf_path }}</code></span>
+    {% else %}
+      <p class="series-download-note">
+        合订 PDF 在部署时生成，路径为 <code>{{ pdf_path }}</code>。本地可先运行
+        <code>python3 scripts/build_series_pdfs.py</code>，再重新构建站点。
+      </p>
+    {% endif %}
+  </div>
+
+  {% if bundle.posts.size > 0 %}
+    <ol class="series-toc-page">
+      {% for post in bundle.posts %}
+        <li>
+          <div class="series-toc-page-main">
+            <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+            {% if post.date_text %}
+              <time>{{ post.date_text }}</time>
+            {% endif %}
+          </div>
+          {% if post.excerpt %}
+            <p>{{ post.excerpt }}</p>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ol>
+  {% else %}
+    <div class="empty-state">
+      <p>这个系列还没有文章</p>
+    </div>
+  {% endif %}
+
+  <p class="taxonomy-back">
+    <a href="{{ '/blog/series/' | relative_url }}" class="back-link">← 全部系列</a>
+  </p>
+</div>

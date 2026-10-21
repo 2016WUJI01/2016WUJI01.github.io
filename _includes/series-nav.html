@@ -1,0 +1,47 @@
+{% if page.series %}
+  {% assign series_bundle = site.data.series_bundles[page.series] %}
+  <section class="series-box" aria-label="系列目录">
+    <div class="series-box-head">
+      <p class="series-box-kicker">
+        <a href="{{ page.series_permalink | relative_url }}">{{ page.series_title }}</a>
+        <span class="series-box-pos">第 {{ page.series_index }} / {{ page.series_total }} 篇</span>
+      </p>
+      {% assign series_pdf_file = site.static_files | where: "path", page.series_pdf | first %}
+      {% if series_pdf_file %}
+        <a class="series-pdf-link" href="{{ page.series_pdf | relative_url }}">下载合订 PDF</a>
+      {% else %}
+        <span class="series-pdf-pending">PDF {{ page.series_pdf }}</span>
+      {% endif %}
+    </div>
+    {% if series_bundle.posts.size > 0 %}
+      <ol class="series-toc">
+        {% for item in series_bundle.posts %}
+          <li{% if item.url == page.url %} class="is-current"{% endif %}>
+            <a href="{{ item.url | relative_url }}">
+              <span class="series-toc-order">{{ item.order }}</span>
+              {{ item.title }}
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    {% endif %}
+    <nav class="series-pager">
+      {% if page.series_prev_url %}
+        <a class="series-pager-link" href="{{ page.series_prev_url | relative_url }}">
+          <span>上一篇</span>
+          <strong>{{ page.series_prev_title }}</strong>
+        </a>
+      {% else %}
+        <span class="series-pager-link is-empty"></span>
+      {% endif %}
+      {% if page.series_next_url %}
+        <a class="series-pager-link is-next" href="{{ page.series_next_url | relative_url }}">
+          <span>下一篇</span>
+          <strong>{{ page.series_next_title }}</strong>
+        </a>
+      {% else %}
+        <span class="series-pager-link is-empty"></span>
+      {% endif %}
+    </nav>
+  </section>
+{% endif %}
