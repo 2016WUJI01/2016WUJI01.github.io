@@ -1,38 +1,24 @@
-# Jekyll
-_site/
-.sass-cache/
-.jekyll-cache/
+_site
+.bundle
+.DS_store
+.idea
+.jekyll-cache
 .jekyll-metadata
-vendor/
-
-# Bundler
-.bundle/
-
-# Python
-__pycache__/
-*.py[cod]
-*$py.class
-*.so
-.Python
-env/
-venv/
-ENV/
+.ruby-version
+.sass-cache
+.tweet-cache
 .venv
+assets/libs/
+assets/rendercv/rendercv_output/*.typ
+al-folio-upgrade-report.md
+node_modules/
+output/playwright/
+test-results/
+vendor
 
-# IDE
-.vscode/
-.idea/
-*.swp
-*.swo
-*~
-
-# OS
-.DS_Store
-Thumbs.db
-
-# 日志
-*.log
+# Python bytecode from bin/ helper scripts
+__pycache__/
+*.pyc
 
 # 系列合订 PDF 由 scripts/build_series_pdfs.py 或 CI 生成，不入库
 /assets/pdf/*.pdf
-

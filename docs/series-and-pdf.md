@@ -1,6 +1,6 @@
 # 文章系列与合订 PDF
 
-网页仍是多页：同一系列的文章互相链接，系列目录提供顺序和上一篇 / 下一篇。GitHub Actions 再按顺序把 Markdown 合并成一份 PDF，放到 `/assets/pdf/<slug>.pdf`。站点继续使用现在的 Jekyll 4.3，不更换生成器。
+网页仍是多页：同一系列的文章互相链接，系列目录提供顺序和上一篇 / 下一篇。GitHub Actions 再按顺序把 Markdown 合并成一份 PDF，放到 `/assets/pdf/<slug>.pdf`。站点基于 al-folio（Jekyll 4.4）。
 
 ## 加一篇系列文章
 
@@ -102,3 +102,22 @@ PDF 步骤失败时：
 - 数学使用传统 TeX 字体（pandoc 默认的 amsmath），不加载 `unicode-math`，因此 `\mathcal`、`\mathbb`、`\mathbf` 按 LaTeX 习惯书写。
 - 不要在 pandoc 元数据里设置 `lang: zh-CN`。那会让模板去加载 babel/polyglossia 的中文支持，在这套精简 TeX 安装里经常失败。中文由 `xeCJK` 负责。
 - 正文从二级标题写起。脚本会把文章标题作为 PDF 的一级标题，并加上与文件名 slug 相同的锚点。
+
+## al-folio 迁移后的变化
+
+- 系列目录页不再由插件自动生成（GitHub Actions 构建可以跑插件，但 al-folio 自带插件较多，这里保持简单）。新系列需要在 `_pages/` 复制一份 `series-demo-tensor-notes.md`，改 `permalink` 和 `series_slug`。
+- 文章页的系列导航和上一篇 / 下一篇在 `_includes/series_nav.liquid`、`_includes/series_pn.liquid`，由覆盖主题的 `_layouts/post.liquid` 引入。
+- 公式由 al-folio 自带的 MathJax 3 排版，写法不变。
+
+## Obsidian 笔记
+
+```bash
+python3 scripts/obsidian2jekyll.py ~/Obsidian/笔记.md _posts/2026-04-01-slug.md --attachments ~/Obsidian/附件
+python3 scripts/tests/test_obsidian2jekyll.py   # 回归测试
+```
+
+- `[[笔记]]`、`[[笔记|别名]]`、`[[笔记#小节]]` → 站内链接，按文件名、slug 或 title 在 `_posts/` 里找，找不到直接报错。
+- `![[图.png]]`、`![[图.png|300]]` → `/assets/img/图.png`，数字为宽度（像素）；给了 `--attachments` 时会把图片复制到 `assets/img/`。
+- `> [!tip]`、`> [!warning]`、`> [!danger]` 等 callout → al-folio 的 `block-tip` / `block-warning` / `block-danger`。
+- `$...$` → `$$...$$`。
+- PDF：`build_series_pdfs.py` 会删掉 kramdown 的 `{: .block-tip }` 行，把 `{: width="300"}` 改成 pandoc 的 `{width=300px}`，并把 `/assets/` 图片指向仓库文件。

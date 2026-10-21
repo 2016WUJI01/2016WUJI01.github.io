@@ -1,0 +1,8 @@
+{% comment %}系列目录：include.slug 对应 _data/series.yml 的 slug 与文章 front matter 的 series。{% endcomment %}
+{% assign meta = site.data.series | where: "slug", include.slug | first %}
+{% assign s = site.posts | where: "series", include.slug | sort: "series_order" %}
+{% if meta.description %}<p>{{ meta.description }}</p>{% endif %}
+<p>共 {{ s.size }} 篇 · <a class="btn btn-primary btn-sm" href="{{ '/assets/pdf/' | append: include.slug | append: '.pdf' | relative_url }}">下载合订 PDF</a></p>
+<ul class="list-unstyled">
+{% for p in s %}<li class="card mb-3"><div class="card-body"><h5><a href="{{ p.url | relative_url }}">{{ p.series_order }}. {{ p.title }}</a></h5><p class="card-text text-muted">{{ p.excerpt | strip_html | strip }}</p></div></li>
+{% endfor %}</ul>
