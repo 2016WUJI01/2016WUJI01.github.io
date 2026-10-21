@@ -1,0 +1,66 @@
+---
+layout: null
+permalink: /
+title: 首页
+---
+{%- assign me = site.data.personal -%}
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ me.name }}</title>
+<meta name="description" content="{{ site.description | strip }}">
+<link rel="alternate" type="application/atom+xml" href="{{ '/feed.xml' | relative_url }}">
+<style>
+body{font-family:Lato,"Noto Sans CJK SC","PingFang SC","Microsoft YaHei",sans-serif;font-size:14px;margin:0;color:#222}
+table{width:100%;max-width:800px;margin:auto;border-spacing:0}td{padding:16px 20px;vertical-align:middle}
+a{color:#1772d0;text-decoration:none}a:hover{color:#f09228}
+.name{font-size:32px;display:block;text-align:center}h2{font-size:22px;font-weight:400;margin:0}
+.pt{font-size:15px;font-weight:700}.thumb{width:25%}
+.ph{width:160px;height:110px;background:linear-gradient(135deg,#dfe9f5,#f3e7d8);display:flex;align-items:center;justify-content:center;color:#8899aa;font-size:24px;border-radius:4px}
+.photo{width:180px;height:180px;border-radius:50%;object-fit:cover;background:#dfe9f5;display:flex;align-items:center;justify-content:center;font-size:56px;color:#7a8ea6}
+p{line-height:1.6}.pubs ol{list-style:none;margin:0;padding:0}ul.edu{margin:6px 0 0;padding-left:18px;line-height:1.7}
+</style>
+</head>
+<body>
+<table><tr>
+  <td style="width:65%">
+    <span class="name">{{ me.name }}</span>
+    <p>我是{{ me.affiliation }}的{{ me.title }}。{{ me.bio | strip }}</p>
+    <p style="text-align:center">
+      <a href="mailto:{{ me.email }}">Email</a> &nbsp;/&nbsp;
+      <a href="{{ me.social.google_scholar }}">Scholar</a> &nbsp;/&nbsp;
+      <a href="{{ me.social.github }}">GitHub</a> &nbsp;/&nbsp;
+      <a href="{{ me.social.orcid }}">ORCID</a> &nbsp;/&nbsp;
+      <a href="{{ '/blog/' | relative_url }}">Blog</a> &nbsp;/&nbsp;
+      <a href="{{ '/publications/' | relative_url }}">Publications</a>
+    </p>
+  </td>
+  <td>{% comment %}照片：把照片放到 assets/img/prof_pic.jpg 后改成 <img class="photo" src="...">。旧站 personal.yml 指向的 photo.jpg 并不存在，这里先放占位。{% endcomment %}
+    <div class="photo" title="照片占位：assets/img/prof_pic.jpg 尚未提供">吴</div></td>
+</tr></table>
+
+<table><tr><td>
+  <h2>Research</h2>
+  <p>{{ me.research_areas | join: "、" }}。</p>
+  <h2 style="margin-top:14px">Education</h2>
+  <ul class="edu">{% for e in me.education %}<li>{{ e.degree }} · {{ e.field }} · {{ e.institution }} · {{ e.year }}</li>{% endfor %}</ul>
+</td></tr></table>
+
+<table><tr><td><h2>Publications</h2></td></tr></table>
+<div class="pubs">{% bibliography --file papers --template barron_bib --group_by none %}</div>
+
+<table><tr><td><h2>Notes</h2></td></tr>
+{% for meta in site.data.series %}{% assign s = site.posts | where: "series", meta.slug | sort: "series_order" %}
+<tr><td class="thumb"><div class="ph">∑ 𝒳</div></td><td>
+  <a href="{{ '/blog/series/' | append: meta.slug | append: '/' | relative_url }}"><span class="pt">{{ meta.title }}</span></a><br>
+  {{ s.size }} 篇：{% for p in s %}{{ p.title }}{% unless forloop.last %} → {% endunless %}{% endfor %}<br>
+  <a href="{{ '/blog/series/' | append: meta.slug | append: '/' | relative_url }}">网页</a> / <a href="{{ '/assets/pdf/' | append: meta.slug | append: '.pdf' | relative_url }}">PDF</a>
+</td></tr>{% endfor %}
+<tr><td></td><td><a href="{{ '/blog/' | relative_url }}">全部文章 →</a></td></tr>
+</table>
+
+<table><tr><td style="text-align:right;font-size:12px">Template adapted from <a href="https://github.com/jonbarron/website">Jon Barron</a>; blog by <a href="https://github.com/alshedivat/al-folio">al-folio</a>.</td></tr></table>
+</body>
+</html>

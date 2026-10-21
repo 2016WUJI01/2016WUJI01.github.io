@@ -1,0 +1,4 @@
+{% if page.series %}{% assign meta = site.data.series | where: "slug", page.series | first %}{% assign s = site.posts | where: "series", page.series | sort: "series_order" %}
+<div class="card mb-4"><div class="card-body py-2"><small class="text-muted">系列 · {{ meta.title | default: page.series }}（<a href="{{ '/blog/series/' | append: page.series | append: '/' | relative_url }}">目录</a> · <a href="{{ '/assets/pdf/' | append: page.series | append: '.pdf' | relative_url }}">合订 PDF</a>）</small>
+<ol class="mb-0">{% for p in s %}<li>{% if p.url == page.url %}<b>{{ p.title }}</b>{% else %}<a href="{{ p.url | relative_url }}">{{ p.title }}</a>{% endif %}</li>{% endfor %}</ol></div></div>
+{% endif %}

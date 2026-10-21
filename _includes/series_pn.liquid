@@ -1,0 +1,2 @@
+{% if page.series %}{% assign s = site.posts | where: "series", page.series | sort: "series_order" %}{% assign pv = page.series_order | minus: 1 %}{% assign nx = page.series_order | plus: 1 %}
+<div class="d-flex justify-content-between mt-5 pt-3 border-top"><span>{% for p in s %}{% if p.series_order == pv %}<a href="{{ p.url | relative_url }}">← {{ p.title }}</a>{% endif %}{% endfor %}</span><span>{% for p in s %}{% if p.series_order == nx %}<a href="{{ p.url | relative_url }}">{{ p.title }} →</a>{% endif %}{% endfor %}</span></div>{% endif %}

@@ -37,6 +37,10 @@ INLINE_MATH_RE = re.compile(r"\$\$([^\n$]+?)\$\$")
 POST_LINK_RE = re.compile(
     r"\]\(\s*/blog/\d{4}/\d{2}/([A-Za-z0-9_-]+)/?\s*\)"
 )
+# kramdown 块级 IAL（如 callout 的 {: .block-tip }）pandoc 不认识，上面整行删掉；
+# 图片宽度 {: width="300"} 改成 pandoc 的 {width=300px}；站内 /assets/ 图片改成仓库内绝对路径。
+IMG_WIDTH_RE = re.compile(r"\)\{:\s*width=\"?(\d+)\"?\s*\}")
+SITE_ASSET_RE = re.compile(r"\]\(\s*/assets/")
 CJK_FONT_PREFERENCE = (
     "Noto Serif CJK SC",
     "Noto Sans CJK SC",
@@ -159,6 +163,9 @@ def adapt_markdown_for_pandoc(text: str) -> str:
         segment = _protect(DISPLAY_MATH_RE, segment, "DISP", displays)
         segment = INLINE_MATH_RE.sub(r"$\1$", segment)
         segment = POST_LINK_RE.sub(r"](#\1)", segment)
+        segment = re.sub(r"(?m)^\{:[^}\n]*\}[ \t]*\n?", "", segment)
+        segment = IMG_WIDTH_RE.sub(r"){width=\1px}", segment)
+        segment = SITE_ASSET_RE.sub(lambda m: "](" + str(ROOT) + "/assets/", segment)
         segment = _restore(segment, "DISP", displays)
         segment = _restore(segment, "CODE", inline_code)
         converted.append(segment)
@@ -291,6 +298,13 @@ def keep():
 ```
 
 下一篇是[展开](/blog/2026/03/tensor-matricization/)。
+
+> **提示**
+>
+> callout 正文
+{: .block-tip }
+
+![a.png](/assets/img/a.png){: width="300"}
 """
     converted = adapt_markdown_for_pandoc(sample)
     checks = [
@@ -301,6 +315,9 @@ def keep():
         ("`$$not math$$`" in converted, "行内代码里的 $$ 不能改"),
         ("](#tensor-matricization)" in converted, "站内文章链接应改成 PDF 锚点"),
         ("/blog/2026/03/" not in converted, "正文里的系列链接应被替换"),
+        ("{: .block-tip }" not in converted, "kramdown IAL 行应删除"),
+        ("{width=300px}" in converted, "图片宽度应改成 pandoc 写法"),
+        (f"]({ROOT}/assets/img/a.png)" in converted, "站内图片应指向仓库文件"),
     ]
     failed = [message for ok, message in checks if not ok]
     if failed:

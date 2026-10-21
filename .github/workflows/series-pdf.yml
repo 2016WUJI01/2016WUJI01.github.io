@@ -24,6 +24,7 @@ jobs:
       - name: 生成 PDF
         run: |
           python3 scripts/build_series_pdfs.py --self-test
+          python3 scripts/tests/test_obsidian2jekyll.py
           python3 scripts/build_series_pdfs.py
 
       - name: 上传 PDF

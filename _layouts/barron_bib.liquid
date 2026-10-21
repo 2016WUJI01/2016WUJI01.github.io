@@ -1,0 +1,17 @@
+---
+---
+{% comment %}首页（Jon Barron 风格）用的论文条目模板；论文页仍用 al-folio 自带的 bib.liquid。{% endcomment %}
+<table><tr>
+  <td class="thumb"><div class="ph">{{ entry.year }}</div></td>
+  <td>
+    <a href="{{ entry.html }}"><span class="pt">{{ entry.title }}</span></a><br>
+    {%- for author in entry.author_array -%}
+      {%- assign self = false -%}
+      {%- if site.scholar.last_name contains author.last and site.scholar.first_name contains author.first -%}{%- assign self = true -%}{%- endif -%}
+      {%- unless forloop.first %}, {% endunless -%}
+      {%- if self %}<strong>{{ author.first }} {{ author.last }}</strong>{% else %}{{ author.first }} {{ author.last }}{% endif -%}
+    {%- endfor -%}<br>
+    <em>{{ entry.journal | default: entry.booktitle }}</em>, {{ entry.year }}<br>
+    {% if entry.html %}<a href="{{ entry.html }}">paper</a>{% endif %}{% if entry.pdf %} / <a href="{{ entry.pdf }}">pdf</a>{% endif %}{% if entry.code %} / <a href="{{ entry.code }}">code</a>{% endif %}
+  </td>
+</tr></table>
