@@ -1,0 +1,41 @@
+---
+layout: default
+---
+
+<div class="container">
+  {% include page-header.html title="文章系列" subtitle="同一主题的文章按顺序分页阅读，部署时合并为一份 PDF。" %}
+
+  {% assign bundles = site.data.series_bundle_list %}
+  {% if bundles.size > 0 %}
+    <div class="series-list">
+      {% for bundle in bundles %}
+        <article class="series-card">
+          <h2 class="series-card-title">
+            <a href="{{ bundle.permalink | relative_url }}">{{ bundle.title }}</a>
+          </h2>
+          {% if bundle.description %}
+            <p class="series-card-desc">{{ bundle.description }}</p>
+          {% endif %}
+          <p class="series-card-meta">共 {{ bundle.posts.size }} 篇 · 合订 PDF <code>{{ bundle.pdf }}</code></p>
+          <ol class="series-card-toc">
+            {% for post in bundle.posts %}
+              <li>
+                <a href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              </li>
+            {% endfor %}
+          </ol>
+          <a href="{{ bundle.permalink | relative_url }}" class="btn btn-outline">打开目录</a>
+        </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-state">
+      <p>还没有文章系列</p>
+      <p>在文章 front matter 中写上 <code>series</code> 与 <code>series_order</code> 即可</p>
+    </div>
+  {% endif %}
+
+  <p class="taxonomy-back">
+    <a href="{{ '/blog/' | relative_url }}" class="back-link">← 返回全部文章</a>
+  </p>
+</div>

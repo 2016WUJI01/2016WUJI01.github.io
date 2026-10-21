@@ -8,6 +8,7 @@
 - 📝 自动更新论文列表（Google Scholar）
 - 📊 自动更新 GitHub 统计信息
 - 📖 博客文章支持（Markdown 写作、分类与标签）
+- 📚 文章系列：目录、上一篇 / 下一篇，以及 CI 合并的 PDF
 - 🔄 GitHub Actions 自动化部署
 - 📱 响应式设计，支持移动端
 
@@ -68,11 +69,13 @@ bundle exec jekyll serve
 ├── _config.yml          # Jekyll 配置
 ├── _data/               # 数据文件
 │   ├── personal.yml     # 个人信息
+│   ├── series.yml       # 系列标题与简介（可选）
 │   └── github_stats.yml # GitHub 统计（自动生成）
 ├── _layouts/            # 布局模板
 ├── _includes/           # 组件
-├── _posts/              # 博客文章（Markdown，支持分类与标签）
-├── _plugins/            # Jekyll 插件（自动生成分类/标签归档页）
+├── _posts/              # 博客文章（Markdown，支持分类、标签与系列）
+├── _plugins/            # Jekyll 插件（分类/标签归档、系列目录）
+├── docs/                # 维护说明（不参与站点构建）
 ├── _publications/       # 论文（自动生成或手动维护）
 ├── assets/              # 静态资源
 ├── scripts/             # 自动化脚本
@@ -100,6 +103,14 @@ tags: [深度学习, 时序分类]
 - 若只需截取列表摘要，在正文中插入 `<!--more-->`
 
 支持 GitHub Flavored Markdown：标题、列表、引用、表格、图片、代码块、链接等。图片可放在 `assets/images/` 下，用 `![说明](/assets/images/example.png)` 引用。
+
+## 文章系列与 PDF
+
+同一主题的文章在 front matter 里共享 `series`，并用 `series_order` 排序。站点会生成 `/blog/series/` 和每系列的目录页，文章页带有目录与上一篇 / 下一篇。
+
+公式全站统一为 kramdown 写法：行内 `$$x_i$$`，显示公式把 `$$` 单独占一行。部署工作流用 pandoc 和 XeLaTeX 把一个系列合并到 `/assets/pdf/<slug>.pdf`。
+
+写法、本地重新生成和 CI 失败时的行为见 [docs/series-and-pdf.md](docs/series-and-pdf.md)。示例系列是 `demo-tensor-notes`。
 
 ## 手动添加论文
 

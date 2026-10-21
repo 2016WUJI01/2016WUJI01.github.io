@@ -13,6 +13,13 @@ layout: default
       {% endfor %}
     </div>
     <h1 class="post-header-title">{{ page.title }}</h1>
+    {% if page.series %}
+      <p class="series-inline">
+        系列
+        <a href="{{ page.series_permalink | relative_url }}">{{ page.series_title }}</a>
+        · 第 {{ page.series_index }} / {{ page.series_total }} 篇
+      </p>
+    {% endif %}
     {% if page.tags.size > 0 %}
       <div class="post-tags post-tags--header">
         {% for tag in page.tags %}
@@ -25,6 +32,7 @@ layout: default
     {{ content }}
   </div>
   <footer class="post-footer">
+    {% include series-nav.html %}
     {% if page.categories.size > 0 %}
       {% assign related_category = page.categories | first %}
       {% assign related_posts = site.categories[related_category] %}

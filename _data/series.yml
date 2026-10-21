@@ -1,0 +1,5 @@
+# 文章系列。slug 必须与文章 front matter 的 series 完全一致。
+# title / description 只用于系列目录和合订 PDF 封面；文章顺序以 series_order 为准。
+- slug: demo-tensor-notes
+  title: "张量笔记：从符号到分解"
+  description: "三篇短文串起张量记号、模式展开与 CP 分解。网页分页阅读，CI 合并为一份 PDF。"

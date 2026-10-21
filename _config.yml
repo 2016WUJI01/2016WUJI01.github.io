@@ -17,8 +17,14 @@ highlighter: rouge
 permalink: /blog/:year/:month/:title/
 
 # GitHub Flavored Markdown，便于用 Markdown 直接写博客
+# 公式约定（全站统一，网页与 PDF 共用源稿）：
+#   行内  $$x_i$$
+#   显示  单独一行的 $$ ，公式，再单独一行 $$
+# kramdown 输出 \(...\) 与 \[...\]，文章页用 MathJax 3 排版；PDF 脚本再把行内 $$ 收成 $。
+# 说明见 docs/series-and-pdf.md
 kramdown:
   input: GFM
+  math_engine: mathjax
   hard_wrap: false
   syntax_highlighter: rouge
   syntax_highlighter_opts:
@@ -53,6 +59,7 @@ exclude:
   - .git
   - .gitignore
   - README.md
+  - docs
   - scripts
 
 # 集合（Collections）
