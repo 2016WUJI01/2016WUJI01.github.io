@@ -1,0 +1,13 @@
+{% comment %}
+  Copyright / powered-by line is omitted (no empty footer wrapper).
+  A newsletter block is kept only when that feature is enabled.
+{% endcomment %}
+{% if site.newsletter.enabled %}
+  <footer class="sticky-bottom mt-5" role="contentinfo">
+    {% if site.plugins contains 'al_newsletter' %}
+      {% include plugins/al_newsletter_form_center.liquid %}
+    {% else %}
+      {% include newsletter.liquid %}
+    {% endif %}
+  </footer>
+{% endif %}
