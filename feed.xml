@@ -1,4 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://2016wuji01.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://2016wuji01.github.io/" rel="alternate" type="text/html" /><updated>2026-10-19T03:37:05+00:00</updated><id>https://2016wuji01.github.io/feed.xml</id><title type="html">吴嘉顺 | 学术主页</title><subtitle>吴嘉顺 (Jiashun Wu) 的个人学术主页 — 机器学习、深度学习、时序序列分类与高光谱图像分类</subtitle><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><entry><title type="html">欢迎来到我的学术主页</title><link href="https://2016wuji01.github.io/blog/2024/01/welcome/" rel="alternate" type="text/html" title="欢迎来到我的学术主页" /><published>2024-01-01T00:00:00+00:00</published><updated>2024-01-01T00:00:00+00:00</updated><id>https://2016wuji01.github.io/blog/2024/01/welcome</id><content type="html" xml:base="https://2016wuji01.github.io/blog/2024/01/welcome/"><![CDATA[<p>欢迎来到我的学术主页！</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://2016wuji01.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://2016wuji01.github.io/" rel="alternate" type="text/html" /><updated>2026-10-21T09:47:15+00:00</updated><id>https://2016wuji01.github.io/feed.xml</id><title type="html">吴嘉顺 | 学术主页</title><subtitle>吴嘉顺 (Jiashun Wu) 的个人学术主页 — 机器学习、深度学习、时序序列分类与高光谱图像分类</subtitle><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><entry><title type="html">CP 分解：用秩一张量之和逼近</title><link href="https://2016wuji01.github.io/blog/2026/03/cp-decomposition/" rel="alternate" type="text/html" title="CP 分解：用秩一张量之和逼近" /><published>2026-03-03T00:00:00+00:00</published><updated>2026-03-03T00:00:00+00:00</updated><id>https://2016wuji01.github.io/blog/2026/03/cp-decomposition</id><content type="html" xml:base="https://2016wuji01.github.io/blog/2026/03/cp-decomposition/"><![CDATA[<p>有了<a href="/blog/2026/03/tensor-notation/">记号</a>和<a href="/blog/2026/03/tensor-matricization/">模式展开</a>，可以把一个三阶张量写成少数几个秩一张量的和。这个分解叫 CP（CANDECOMP/PARAFAC）。</p>
+
+<h2 id="秩一张量">秩一张量</h2>
+
+<p>三条向量 \(\mathbf{a} \in \mathbb{R}^{I}\)、\(\mathbf{b} \in \mathbb{R}^{J}\)、\(\mathbf{c} \in \mathbb{R}^{K}\) 的外积是一个三阶张量，元素为</p>
+
+\[(\mathbf{a} \circ \mathbf{b} \circ \mathbf{c})_{ijk} = a_i b_j c_k.\]
+
+<p>它的秩是 1：任意模式展开都是一个列向量乘一行向量。例如 mode-1 展开就是 \(\mathbf{a}(\mathbf{c} \otimes \mathbf{b})^{\mathsf{T}}\)，这里 \(\otimes\) 是 Kronecker 积。</p>
+
+<h2 id="r-项之和">R 项之和</h2>
+
+<p>取 \(R\) 组这样的向量，并给每组一个非负权重 \(\lambda_r\)：</p>
+
+\[\mathcal{X} \approx \sum_{r=1}^{R} \lambda_r \, \mathbf{a}_r \circ \mathbf{b}_r \circ \mathbf{c}_r.\]
+
+<p>把 \(\mathbf{a}_r\) 按列排成 \(I \times R\) 的因子矩阵 \(\mathbf{A}\)，同样得到 \(\mathbf{B}\) 和 \(\mathbf{C}\)。权重写成对角阵之后，mode-1 展开变成一次矩阵乘积：</p>
+
+\[\mathbf{X}_{(1)} \approx \mathbf{A} \, \operatorname{diag}(\boldsymbol{\lambda}) \, (\mathbf{C} \odot \mathbf{B})^{\mathsf{T}},\]
+
+<p>其中 \(\odot\) 是 Khatri–Rao 积（按列的 Kronecker 积）。\(\boldsymbol{\lambda}\) 的第 \(r\) 个分量就是 \(\lambda_r\)。</p>
+
+<p>实际拟合时最小化 \(\| \mathcal{X} - \hat{\mathcal{X}} \|_F\)。\(R\) 是这个系列里唯一需要事先选定的整数：它同时决定三块因子矩阵的列数。</p>]]></content><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><category term="研究笔记" /><category term="张量" /><category term="机器学习" /><summary type="html"><![CDATA[CP 把张量写成 R 个秩一张量的和。每个秩一张量是三条向量的外积，权重吸收进因子矩阵。]]></summary></entry><entry><title type="html">模式展开：把张量写成矩阵</title><link href="https://2016wuji01.github.io/blog/2026/03/tensor-matricization/" rel="alternate" type="text/html" title="模式展开：把张量写成矩阵" /><published>2026-03-02T00:00:00+00:00</published><updated>2026-03-02T00:00:00+00:00</updated><id>https://2016wuji01.github.io/blog/2026/03/tensor-matricization</id><content type="html" xml:base="https://2016wuji01.github.io/blog/2026/03/tensor-matricization/"><![CDATA[<p><a href="/blog/2026/03/tensor-notation/">上一篇</a>把三阶张量记成 \(\mathcal{X} \in \mathbb{R}^{I \times J \times K}\)。很多算法只接受矩阵，所以要沿某一个模把元素重新排开。排出来的矩阵叫模式展开（mode-n unfolding），也叫 matricization。</p>
+
+<h2 id="形状">形状</h2>
+
+<p>沿第 \(n\) 模展开得到</p>
+
+\[\mathbf{X}_{(n)} \in \mathbb{R}^{I_n \times \prod_{m \neq n} I_m}.\]
+
+<p>行数永远是被展开的那一模的长度。对其余模，列下标按约定的顺序把多下标合成一个整数。三阶张量的 mode-1 展开是 \(\mathbf{X}_{(1)} \in \mathbb{R}^{I \times JK}\)。</p>
+
+<h2 id="下标怎么对">下标怎么对</h2>
+
+<p>采用列优先、先走最后一模的约定时，元素 \(\mathcal{X}_{ijk}\) 落到 \(\mathbf{X}_{(1)}\) 的第 \(i\) 行、第</p>
+
+\[p = (j-1)K + k\]
+
+<p>列。因此</p>
+
+\[\bigl(\mathbf{X}_{(1)}\bigr)_{ip} = \mathcal{X}_{ijk}, \quad p = (j-1)K + k.\]
+
+<p>用一个很小的数组可以手算。设 \(I=J=K=2\)，\(\mathcal{X}_{111}=1\)，\(\mathcal{X}_{112}=2\)，\(\mathcal{X}_{121}=3\)，\(\mathcal{X}_{122}=4\)，则第一行是 \(1,2,3,4\)。下面的函数只依赖这个约定：</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">unfold_mode1</span><span class="p">(</span><span class="n">tensor</span><span class="p">):</span>
+    <span class="sh">"""</span><span class="s">把 I x J x K 的张量排成 I x (J*K)，列下标 p = (j-1)*K + k。</span><span class="sh">"""</span>
+    <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">k</span> <span class="o">=</span> <span class="n">tensor</span><span class="p">.</span><span class="n">shape</span>
+    <span class="k">return</span> <span class="n">tensor</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">*</span> <span class="n">k</span><span class="p">,</span> <span class="n">order</span><span class="o">=</span><span class="sh">"</span><span class="s">C</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">reshape</code> 之前要确认内存顺序和上面的 \(p\) 一致；不一致时先转置再展开。展开不改变元素集合，所以</p>
+
+\[\| \mathbf{X}_{(n)} \|_F = \| \mathcal{X} \|_F.\]
+
+<p>下一篇的 CP 分解会把因子矩阵和这些展开乘在一起。因子的写法见<a href="/blog/2026/03/cp-decomposition/">《CP 分解》</a>。</p>]]></content><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><category term="研究笔记" /><category term="张量" /><category term="机器学习" /><summary type="html"><![CDATA[模式-n 展开把张量排成矩阵。三阶张量的 mode-1 展开是一个具体、可核对的下标公式。]]></summary></entry><entry><title type="html">张量记号：阶、模与元素</title><link href="https://2016wuji01.github.io/blog/2026/03/tensor-notation/" rel="alternate" type="text/html" title="张量记号：阶、模与元素" /><published>2026-03-01T00:00:00+00:00</published><updated>2026-03-01T00:00:00+00:00</updated><id>https://2016wuji01.github.io/blog/2026/03/tensor-notation</id><content type="html" xml:base="https://2016wuji01.github.io/blog/2026/03/tensor-notation/"><![CDATA[<p>向量是一阶数组，矩阵是二阶数组。把这个说法再推进一步，阶为 \(N\) 的数组就叫 \(N\) 阶张量。这篇只固定后面两篇要用的记号；模式展开见<a href="/blog/2026/03/tensor-matricization/">《模式展开：把张量写成矩阵》</a>，用秩一张量之和去逼近见<a href="/blog/2026/03/cp-decomposition/">《CP 分解》</a>。</p>
+
+<h2 id="阶与模">阶与模</h2>
+
+<p>实值三阶张量写成</p>
+
+\[\mathcal{X} \in \mathbb{R}^{I \times J \times K}.\]
+
+<p>三个维度分别叫 mode-1、mode-2 和 mode-3，长度是 \(I\)、\(J\) 和 \(K\)。一般地，\(N\) 阶张量 \(\mathcal{X}\) 的第 \(n\) 模长度为 \(I_n\)。元素用下标一次写全：\(\mathcal{X}_{i_1 i_2 \ldots i_N}\)。三阶时就是 \(\mathcal{X}_{ijk}\)。</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>阶</th>
+      <th>常见称呼</th>
+      <th>本文记号</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>向量</td>
+      <td>粗体小写</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>矩阵</td>
+      <td>粗体大写</td>
+    </tr>
+    <tr>
+      <td>3 及以上</td>
+      <td>张量</td>
+      <td>花体</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>calligraphy 只用于张量本身，例如 \(\mathcal{X}\)；沿着某一个模切出来的向量仍然用粗体，例如第 \(k\) 张正面切片里的列 \(\mathbf{x}_{:jk}\)。</p>
+
+<h2 id="范数">范数</h2>
+
+<p>后面比较近似误差时用 Frobenius 范数。它只是把每个元素的平方加起来再开方：</p>
+
+\[\| \mathcal{X} \|_F = \sqrt{\sum_{i=1}^{I} \sum_{j=1}^{J} \sum_{k=1}^{K} \mathcal{X}_{ijk}^{2}}.\]
+
+<p>行内也可以直接写 \(\|\mathcal{X}\|_F\)。这个定义不依赖基的选择，所以下一篇把 \(\mathcal{X}\) 摊成矩阵之后，矩阵的 Frobenius 范数和原来相同。</p>]]></content><author><name>吴嘉顺</name><email>2024882038@zwu.edu.cn</email></author><category term="研究笔记" /><category term="张量" /><category term="机器学习" /><summary type="html"><![CDATA[用阶、模和元素下标把向量、矩阵和更高阶数组写成同一套记号，并给出 Frobenius 范数。]]></summary></entry><entry><title type="html">欢迎来到我的学术主页</title><link href="https://2016wuji01.github.io/blog/2024/01/welcome/" rel="alternate" type="text/html" title="欢迎来到我的学术主页" /><published>2024-01-01T00:00:00+00:00</published><updated>2024-01-01T00:00:00+00:00</updated><id>https://2016wuji01.github.io/blog/2024/01/welcome</id><content type="html" xml:base="https://2016wuji01.github.io/blog/2024/01/welcome/"><![CDATA[<p>欢迎来到我的学术主页！</p>
 
 <p>这个网站使用 Jekyll 构建，并通过 GitHub Actions 自动更新论文和统计数据。</p>
 
